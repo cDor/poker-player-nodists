@@ -1,7 +1,7 @@
 
 module.exports = {
 
-  VERSION: "Default JavaScript folding player",
+  VERSION: "Kickstarter",
 
   bet_request: function(game_state, bet) {
     bet(150);
