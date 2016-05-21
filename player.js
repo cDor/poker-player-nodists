@@ -45,11 +45,11 @@ function phase_zero (){
     return callMax(4 * gameState.small_blind);
   }
 
-  const first = cards[0];
-  const second = cards[1];
+  const first = myplayer.hole_cards[0];
+  const second = myplayer.hole_cards[1];
   if(first.rank === second.rank){ // check pair
     return minimalRaise();
-  }else if(isSuited(cards)){
+  }else if(isSuited(myplayer.hole_cards)){
     return call();
   } else if(isHighCard(first) || isHighCard(second) || areContinous(first, second)) {
     return call();
