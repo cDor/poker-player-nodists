@@ -72,25 +72,17 @@ function phase_two (){
 
   // const communityOnly = getRanking(gameState.community_cards);
   const withOurCards = getRanking(allCards);
-  return Promise.all([/*communityOnly,*/ withOurCards]).then((rankingData) => {
-    // const communityRank = rankingData[0].rank;
-    const allCardsRank = rankingData[0].rank;
-
-    // console.log('community and allcards rank:', communityRank, allCardsRank);
-
-    // if(communityRank > allCardsRank) {
-    //     console.log('communityRank > allCardsRank', communityRank, allCardsRank);
-    //     return Math.random() >= 0.7? call():fold(); // 70% call
-    // }
-
+  return getRanking(allCards).then((rankingData) => {
+    const allCardsRank = rankingData.rank;
+    console.log('got rank', allCardsRank);
     if(allCardsRank >= 8) {
         return allIn();
     } else if(allCardsRank >= 5) {
         return minimalRaise();
     } else if(allCardsRank >= 3) {
-        return call();
+        return minimalRaise();
     } else if(allCardsRank >= 2) {
-        return call();
+        return minimalRaise();
     } else if(allCardsRank >= 1) {
         return call();
     } else {
