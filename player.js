@@ -34,9 +34,6 @@ module.exports = {
 
 function phase_zero (){
   folded = false;
-  if(myplayer.hole_cards.length < 2){
-    return 0;
-  }
 
   console.log("phase zero");
   const rank = evaluate(myplayer.hole_cards);
