@@ -33,12 +33,18 @@ module.exports = {
 
 function phase_zero (){
 
-  console.log("phase zero");
   const rank = evaluate(myplayer.hole_cards);
+  console.log("phase zero", rank);
   if(rank >= 3){
     return minimalRaise();
   }else if (rank ===2) {
     return call();
+  }
+  console.log('neither raise nor call');
+  const highCards = myplayer.hole_cards.filter(isHighCard);
+  if(highCards.length > 0 && isSmallBlind()) {
+    console.log('we have a high card and it is still small blind - call!');
+    return callMax(gameState.small_blind * 4);
   }
   return fold();
 }
@@ -64,18 +70,28 @@ function phase_two (){
     }
   }
 
-  return getRanking(allCards).then((rankingData) => {
-    const rank = rankingData.rank;
+  // const communityOnly = getRanking(gameState.community_cards);
+  const withOurCards = getRanking(allCards);
+  return Promise.all([/*communityOnly,*/ withOurCards]).then((rankingData) => {
+    // const communityRank = rankingData[0].rank;
+    const allCardsRank = rankingData[0].rank;
 
-    if(rank >= 8) {
+    // console.log('community and allcards rank:', communityRank, allCardsRank);
+
+    // if(communityRank > allCardsRank) {
+    //     console.log('communityRank > allCardsRank', communityRank, allCardsRank);
+    //     return Math.random() >= 0.7? call():fold(); // 70% call
+    // }
+
+    if(allCardsRank >= 8) {
         return allIn();
-    } else if(rank >= 5) {
+    } else if(allCardsRank >= 5) {
         return minimalRaise();
-    } else if(rank >= 3) {
+    } else if(allCardsRank >= 3) {
         return call();
-    } else if(rank >= 2) {
+    } else if(allCardsRank >= 2) {
         return call();
-    } else if(rank >= 1) {
+    } else if(allCardsRank >= 1) {
         return call();
     } else {
         return fold();
@@ -105,6 +121,20 @@ function evaluate (cards){
   } else {
     return 0;
   }
+}
+
+function isHighCard(card) {
+    const highCards = ['J', 'Q', 'A', 'K', '10'];
+    return highCards.indexOf(card.rank.toUpperCase()) >= 0;
+}
+
+function isSmallBlind() {
+    return gameState.current_buy_in === gameState.small_blind;
+}
+
+function callMax(max) {
+    const called = call();
+    return Math.min(max, called); // if "max" is selected, we fold
 }
 
 function isSuited(cards){
