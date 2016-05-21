@@ -1,10 +1,11 @@
 'use strict';
 
-let gameState, myplayer;
+let gameState, myplayer, folded;
 module.exports = {
   VERSION: "Kickstarter",
   bet_request: function(game_state, bet) {
     new Promise(resolve => {
+        folded = false;
         gameState =  game_state;
         myplayer = game_state.players[game_state.in_action];
         console.log(myplayer.hole_cards);
@@ -32,6 +33,7 @@ module.exports = {
 };
 
 function phase_zero (){
+  folded = false;
   if(myplayer.hole_cards.length < 2){
     return 0;
   }
@@ -43,10 +45,13 @@ function phase_zero (){
   }else if (rank ===2) {
     return call();
   }
+  folded = true;
   return fold();
 }
 
 function phase_three (){
+  if(folded) return fold();
+
   const rank = evaluate(myplayer.hole_cards);
   if(rank === 3){
     return gameState.minimum_raise;
@@ -57,22 +62,28 @@ function phase_three (){
 }
 
 function phase_four (game_state, bet){
+  if(folded) return fold();
+
   const rank = evaluate(myplayer.hole_cards);
   if(rank === 3){
     return gameState.minimum_raise;
   }else if (rank ===2) {
     return call();
   }
+  folded = true;
   return fold();
 }
 
 function phase_five (game_state, bet){
+  if(folded) return fold();
+
   const rank = evaluate(myplayer.hole_cards);
   if(rank === 3){
     return gameState.minimum_raise;
   }else if (rank ===2) {
     return call();
   }
+  folded = true;
   return fold();
 }
 
