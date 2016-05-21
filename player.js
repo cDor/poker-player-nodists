@@ -10,8 +10,8 @@ module.exports = {
         console.log(myplayer.hole_cards);
         console.log(game_state);
 
-
         //Check for zero phase
+
         if(gameState.community_cards.length === 0){
           resolve(phase_zero());
         }else if(gameState.community_cards.length <= 3){
@@ -32,6 +32,10 @@ module.exports = {
 };
 
 function phase_zero (){
+  if(myplayer.hole_cards.length < 2){
+    return 0;
+  }
+
   console.log("phase zero");
   const rank = evaluate(myplayer.hole_cards);
   if(rank === 3){
