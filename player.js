@@ -33,25 +33,30 @@ module.exports = {
 
 function phase_zero (){
 
-  const rank = evaluate(myplayer.hole_cards);
   const highCards = myplayer.hole_cards.filter(isHighCard);
   if(highCards.length > 0 && isSmallBlind()) {
     console.log('we have a high card and it is still small blind - call!');
     return callMax(gameState.small_blind * 4);
   }
-
   const haveHighCard = highCards.length > 0;
-  if(haveHighCard) {
+  if(highCards.length > 1) {
+    return minimalRaise();
+  } else if(haveHighCard) {
     return callMax(4 * gameState.small_blind);
   }
-  console.log("phase zero", rank);
-  if(rank >= 3){
+
+  const first = cards[0];
+  const second = cards[1];
+  if(first.rank === second.rank){ // check pair
     return minimalRaise();
-  }else if (rank >= 1) {
+  }else if(isSuited(cards)){
     return call();
+  } else if(isHighCard(first) || isHighCard(second) || areContinous(first, second)) {
+    return call();
+  }else {
+    return fold();
   }
-  console.log('neither raise nor call');
-  return fold();
+
 }
 
 function phase_two (){
@@ -113,20 +118,6 @@ function phase_two (){
   //   return call();
   // }
   // return fold();
-}
-
-function evaluate (cards){
-  const first = cards[0];
-  const second = cards[1];
-  if(first.rank === second.rank){ // check pair
-    return 3;
-  }else if(isSuited(cards)){
-    return 2;
-  } else if(isHighCard(first) || isHighCard(second) || areContinous(first, second)) {
-    return 1;
-  }else {
-    return 0;
-  }
 }
 
 function isHighCard(card) {
