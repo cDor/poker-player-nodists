@@ -62,6 +62,8 @@ function phase_two (){
         return allIn();
     } else if(rank >= 5) {
         return minimalRaise();
+    } else if(rank >= 3) {
+        return call();
     } else {
         return fold();
     }
