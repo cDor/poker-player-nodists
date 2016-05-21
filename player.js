@@ -22,7 +22,7 @@ module.exports = {
         }
         promise.then(resolve, reject);
     }).then(value => {
-        bet(value);
+        bet(Math.round(value));
     }).catch(err => {
         console.log('ERROR', err);
     });
