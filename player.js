@@ -74,7 +74,11 @@ function phase_two (){
   if(numberOfPairs >= 2) {
     return allIn();
   } else if(numberOfPairs === 1) {
-    return minimalRaise(); // TODO: maybe more?
+    if(gameState.community_cards.length <= 3 && isHighCard(myplayer.hole_cards[0])){
+        return minimalRaise(); // TODO: maybe more?
+    }else {
+      return callMax(10 * gameState.small_blind);
+    }
   }
 
   if(isSuited(myplayer.hole_cards)) {
