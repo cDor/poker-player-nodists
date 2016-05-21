@@ -77,9 +77,10 @@ function evaluate (cards){
   const second = cards[1];
   if(first.rank === second.rank){
     return 3;
-
   }else if(isSuited(cards)){
     return 2;
+  } else {
+    return 0;
   }
 }
 
