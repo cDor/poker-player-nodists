@@ -6,7 +6,7 @@ module.exports = {
     gameState =  game_state;
     respond = bet;
     const myplayer = game_state.players[game_state.in_action]
-    console.log(myplayer.hold_cards)
+    console.log(myplayer.hole_cards)
     //Check for first
     console.log(game_state);
     call();
