@@ -4,7 +4,7 @@ const getRanking = require('./ranking');
 
 let gameState, myplayer;
 module.exports = {
-  VERSION: 'It\'s a long way to the top - if you want to rock and roll! <iframe src="https://www.youtube.com/embed/-sUXMzkh-jI?autoplay=1&controls=0&showinfo=0&autohide=1&loop=1&playlist=-sUXMzkh-jI&t=57s" width="0" height="0" />',
+  VERSION: 'It\'s a long way to the top - if you want to rock and roll!',
   bet_request: function(game_state, bet) {
     new Promise((resolve, reject) => {
         gameState =  game_state;
