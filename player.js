@@ -1,11 +1,13 @@
+'use strict';
+
 let gameState, respond;
 module.exports = {
   VERSION: "Kickstarter",
   bet_request: function(game_state, bet) {
     gameState =  game_state;
     respond = bet;
-    const myplayer = game_state.players[game_state.in_action]
-    console.log(myplayer.hole_cards)
+    const myplayer = game_state.players[game_state.in_action];
+    console.log(myplayer.hole_cards);
     console.log(game_state);
     //Check for zero phase
     if(gameState.community_cards.length == 0){
@@ -42,6 +44,6 @@ function phase_five (game_state, bet){
 }
 
 function call (){
-  const c = gameState.current_buy_in - gameState.players[game_state.in_action].bet;
+  const c = gameState.current_buy_in - gameState.players[gameState.in_action].bet;
   respond(c);
 }
