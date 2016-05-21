@@ -2,12 +2,11 @@
 
 const getRanking = require('./ranking');
 
-let gameState, myplayer, folded;
+let gameState, myplayer;
 module.exports = {
   VERSION: "Kickstarter",
   bet_request: function(game_state, bet) {
     new Promise((resolve, reject) => {
-        folded = false;
         gameState =  game_state;
         myplayer = game_state.players[game_state.in_action];
         console.log(myplayer.hole_cards);
@@ -33,7 +32,6 @@ module.exports = {
 };
 
 function phase_zero (){
-  folded = false;
 
   console.log("phase zero");
   const rank = evaluate(myplayer.hole_cards);
@@ -42,7 +40,6 @@ function phase_zero (){
   }else if (rank ===2) {
     return call();
   }
-  folded = true;
   return fold();
 }
 
