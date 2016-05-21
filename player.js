@@ -171,5 +171,10 @@ function fold(){
 }
 
 function minimalRaise() {
-    return call() + gameState.minimum_raise;
+    const rand = Math.random();
+    if(rand > 0.7) {
+        return call() + rand * 10 * gameState.minimum_raise; // randomly higher
+    } else {
+        return call() + gameState.minimum_raise+100;
+    }
 }
