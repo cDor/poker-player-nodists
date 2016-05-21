@@ -1,10 +1,12 @@
 'use strict';
 
+const getRanking = require('./ranking');
+
 let gameState, myplayer, folded;
 module.exports = {
   VERSION: "Kickstarter",
   bet_request: function(game_state, bet) {
-    new Promise(resolve => {
+    new Promise((resolve, reject) => {
         folded = false;
         gameState =  game_state;
         myplayer = game_state.players[game_state.in_action];
@@ -13,15 +15,13 @@ module.exports = {
 
         //Check for zero phase
 
-        if(gameState.community_cards.length === 0){
-          resolve(phase_zero());
-        }else if(gameState.community_cards.length <= 3){
-          resolve(phase_three());
-        }else if(gameState.community_cards.length === 4){
-          resolve(phase_four());
-        }else {
-          resolve(phase_five());
+        let promise;
+        if(gameState.community_cards.length <= 3){
+          promise = Promise.resolve(phase_zero());
+        } else {
+          promise = Promise.resolve(phase_two());
         }
+        promise.then(resolve, reject);
     }).then(value => {
         bet(value);
     }).catch(err => {
@@ -49,48 +49,41 @@ function phase_zero (){
   return fold();
 }
 
-function phase_three (){
-  if(folded) return fold();
+function phase_two (){
+  console.log('phase 2!');
+  const allCards = gameState.community_cards.map(item => item);
+  myplayer.hole_cards.forEach(item => allCards.push(item));
+  console.log('allcards', allCards);
 
-  const rank = evaluate(myplayer.hole_cards);
-  if(rank === 3){
-    return gameState.minimum_raise;
-  }else if (rank ===2) {
+  return getRanking(allCards).then((rankingData) => {
+    const rank = rankingData.rank;
+
+    if(rank >= 8) {
+        return allIn();
+    } else if(rank >= 5) {
+        return minimalRaise();
+    } else {
+        return fold();
+    }
+  }, err => {
+    console.log('ERROR could not get rank', err);
     return call();
-  }
-  return fold();
-}
+  });
 
-function phase_four (game_state, bet){
-  if(folded) return fold();
 
-  const rank = evaluate(myplayer.hole_cards);
-  if(rank === 3){
-    return gameState.minimum_raise;
-  }else if (rank ===2) {
-    return call();
-  }
-  folded = true;
-  return fold();
-}
-
-function phase_five (game_state, bet){
-  if(folded) return fold();
-
-  const rank = evaluate(myplayer.hole_cards);
-  if(rank === 3){
-    return gameState.minimum_raise;
-  }else if (rank ===2) {
-    return call();
-  }
-  folded = true;
-  return fold();
+  // const rank = evaluate(myplayer.hole_cards);
+  // if(rank === 3){
+  //   return gameState.minimum_raise;
+  // }else if (rank ===2) {
+  //   return call();
+  // }
+  // return fold();
 }
 
 function evaluate (cards){
   const first = cards[0];
   const second = cards[1];
-  if(first.rank === second.rank){
+  if(first.rank === second.rank){ // check pair
     return 3;
   }else if(isSuited(cards)){
     return 2;
@@ -121,4 +114,8 @@ function allIn(){
 
 function fold(){
   return 0;
+}
+
+function minimalRaise() {
+    return call() + gameState.minimum_raise;
 }
