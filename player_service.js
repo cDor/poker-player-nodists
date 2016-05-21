@@ -25,6 +25,10 @@ app.post('/', function(req, res){
 
 });
 
+process.on('uncaughtException', function (err) {
+  console.error('ERROR', err);
+})
+
 port = parseInt(process.env['PORT'] || 1337);
 host = "0.0.0.0";
 app.listen(port, host);
