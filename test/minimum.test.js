@@ -51,6 +51,7 @@ describe('Pokerbot', function() {
     it('should return', function(done) {
         player.bet_request(fakeState, function(bet) {
             try {
+                console.log('got bet', bet);
                 expect(bet).to.exist;
                 expect(bet>=0).to.be.ok;
             } catch(e) {

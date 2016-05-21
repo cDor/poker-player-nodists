@@ -13,7 +13,7 @@ module.exports = {
         console.log(game_state);
 
         //Check for zero phase
-        return resolve(Number.MAX_VALUE);
+
         let promise;
         if(gameState.community_cards.length <= 3){
           promise = Promise.resolve(phase_zero());
@@ -49,6 +49,20 @@ function phase_two (){
   myplayer.hole_cards.forEach(item => allCards.push(item));
   console.log('allcards', allCards);
 
+  if(isSuited(myplayer.hole_cards)) {
+    const suit = myplayer.hole_cards[0].suit;
+    const suited = gameState.community_cards.filter(card => {
+        return card.suit === suit;
+    }).length;
+
+    if(suited === 3) { // FLUSH!
+        return allIn();
+    } else if(suited == 2) {
+        if(gameState.community_cards.length < 5) { // flush still possible
+            return minimalRaise();
+        } // else use ranking
+    }
+  }
 
   return getRanking(allCards).then((rankingData) => {
     const rank = rankingData.rank;
