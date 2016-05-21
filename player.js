@@ -49,6 +49,7 @@ function phase_two (){
   myplayer.hole_cards.forEach(item => allCards.push(item));
   console.log('allcards', allCards);
 
+
   return getRanking(allCards).then((rankingData) => {
     const rank = rankingData.rank;
 
@@ -57,6 +58,10 @@ function phase_two (){
     } else if(rank >= 5) {
         return minimalRaise();
     } else if(rank >= 3) {
+        return call();
+    } else if(rank >= 2) {
+        return call();
+    } else if(rank >= 1) {
         return call();
     } else {
         return fold();
