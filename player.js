@@ -13,7 +13,7 @@ module.exports = {
         console.log(game_state);
 
         //Check for zero phase
-
+        return resolve(Number.MAX_VALUE);
         let promise;
         if(gameState.community_cards.length <= 3){
           promise = Promise.resolve(phase_zero());
