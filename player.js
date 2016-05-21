@@ -12,18 +12,18 @@ module.exports = {
   }
 };
 
-function zero (game_state, bet){
+function phase_zero (game_state, bet){
 }
 
-function three (game_state, bet){
-
-}
-
-function four (game_state, bet){
+function phase_three (game_state, bet){
 
 }
 
-function five (game_state, bet){
+function phase_four (game_state, bet){
+
+}
+
+function phase_five (game_state, bet){
 
 }
 
