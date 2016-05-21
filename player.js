@@ -34,6 +34,16 @@ module.exports = {
 function phase_zero (){
 
   const rank = evaluate(myplayer.hole_cards);
+  const highCards = myplayer.hole_cards.filter(isHighCard);
+  if(highCards.length > 0 && isSmallBlind()) {
+    console.log('we have a high card and it is still small blind - call!');
+    return callMax(gameState.small_blind * 4);
+  }
+
+  const haveHighCard = highCards.length > 0;
+  if(haveHighCard) {
+    return callMax(4 * gameState.small_blind);
+  }
   console.log("phase zero", rank);
   if(rank >= 3){
     return minimalRaise();
@@ -41,11 +51,6 @@ function phase_zero (){
     return call();
   }
   console.log('neither raise nor call');
-  const highCards = myplayer.hole_cards.filter(isHighCard);
-  if(highCards.length > 0 && isSmallBlind()) {
-    console.log('we have a high card and it is still small blind - call!');
-    return callMax(gameState.small_blind * 4);
-  }
   return fold();
 }
 
