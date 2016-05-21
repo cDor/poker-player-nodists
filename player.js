@@ -55,6 +55,13 @@ function phase_two (){
   myplayer.hole_cards.forEach(item => allCards.push(item));
   console.log('allcards', allCards);
 
+  const numberOfPairs = pairsWithCommunity(myplayer.hole_cards[0], myplayer.hole_cards[1], gameState.community_cards);
+  if(numberOfPairs >= 2) {
+    return allIn();
+  } else if(numberOfPairs === 1) {
+    return minimalRaise(); // TODO: maybe more?
+  }
+
   if(isSuited(myplayer.hole_cards)) {
     const suit = myplayer.hole_cards[0].suit;
     const suited = gameState.community_cards.filter(card => {
@@ -139,6 +146,17 @@ function isSuited(cards){
   }
   return false;
 
+}
+
+function pairsWithCommunity(first, second, communityCards) {
+    const pairs = communityCards.filter((commCard) => {
+        return isPair(commCard, first) || isPair(commCard, second);
+    });
+    return pairs.length;
+}
+
+function isPair(first, second) {
+    return first.rank === second.rank;
 }
 
 function areContinous(first, second) {
