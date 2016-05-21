@@ -7,15 +7,24 @@ module.exports = {
     respond = bet;
     const myplayer = game_state.players[game_state.in_action]
     console.log(myplayer.hole_cards)
-    //Check for first
     console.log(game_state);
-    call();
+    //Check for zero phase
+    if(gameState.community_cards.length == 0){
+      phase_zero();
+    }else if(gameState.community_cards.length == 3){
+      phase_three();
+    }else if(gameState.community_cards.length == 4){
+      phase_four();
+    }else if(gameState.community_cards.length == 5){
+      phase_five();
+    }
   },
   showdown: function(game_state) {
   }
 };
 
 function phase_zero (game_state, bet){
+  console.log("phase zero");
   call();
 }
 
@@ -28,7 +37,6 @@ function phase_four (game_state, bet){
   call();
 
 }
-
 function phase_five (game_state, bet){
   call();
 
