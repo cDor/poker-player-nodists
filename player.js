@@ -37,7 +37,7 @@ function phase_zero (){
   console.log("phase zero", rank);
   if(rank >= 3){
     return minimalRaise();
-  }else if (rank ===2) {
+  }else if (rank >= 1) {
     return call();
   }
   console.log('neither raise nor call');
@@ -118,7 +118,9 @@ function evaluate (cards){
     return 3;
   }else if(isSuited(cards)){
     return 2;
-  } else {
+  } else if(isHighCard(first) || isHighCard(second)) {
+    return 1;
+  }else {
     return 0;
   }
 }
