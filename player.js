@@ -106,7 +106,7 @@ function phase_two (){
     } else if(allCardsRank >= 2) {
         return minimalRaise();
     } else if(allCardsRank >= 1) {
-        return call();
+        return callMax(10 * gameState.small_blind);
     } else {
         return fold();
     }
