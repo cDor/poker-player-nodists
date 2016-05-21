@@ -4,7 +4,7 @@ const getRanking = require('./ranking');
 
 let gameState, myplayer;
 module.exports = {
-  VERSION: "Kickstarter",
+  VERSION: "It's a long way to the top",
   bet_request: function(game_state, bet) {
     new Promise((resolve, reject) => {
         gameState =  game_state;
