@@ -1,6 +1,4 @@
-
 module.exports = {
-
   VERSION: "Kickstarter",
 
   bet_request: function(game_state, bet) {
@@ -15,8 +13,6 @@ module.exports = {
 };
 
 function zero (game_state, bet){
-  if(rank >)
-
 }
 
 function three (game_state, bet){
