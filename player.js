@@ -41,7 +41,7 @@ function phase_zero (){
   console.log("phase zero");
   const rank = evaluate(myplayer.hole_cards);
   if(rank === 3){
-    return gameState.minimum_raise;
+    return minimalRaise();
   }else if (rank ===2) {
     return call();
   }
