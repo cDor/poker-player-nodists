@@ -6,7 +6,7 @@ module.exports = {
     console.log(myplayer.hold_cards)
     //Check for first
     console.log(game_state);
-    call();
+    call(game_state, bet);
   },
   showdown: function(game_state) {
   }
