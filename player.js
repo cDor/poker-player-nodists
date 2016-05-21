@@ -14,7 +14,7 @@ module.exports = {
         //Check for zero phase
         if(gameState.community_cards.length === 0){
           resolve(phase_zero());
-        }else if(gameState.community_cards.length === 3){
+        }else if(gameState.community_cards.length =< 3){
           resolve(phase_three());
         }else if(gameState.community_cards.length === 4){
           resolve(phase_four());
