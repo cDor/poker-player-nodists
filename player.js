@@ -100,15 +100,13 @@ function evaluate (cards){
 }
 
 function isSuited(cards){
-  const reds = ['clubs','spades'];
-  const blacks = ['hearts', 'diamonds'];
   const first = cards[0];
   const second = cards[1];
-  if((reds.indexOf(first.suit) >= 0  && reds.indexOf(second.suit)>= 0) || (blacks.indexOf(first.suit) >= 0  && blacks.indexOf(second.suit) >= 0)){
+  if(first.suit === second.suit){
     return true;
-  }else{
-    return false;
   }
+  return false;
+
 }
 
 function call (){
