@@ -13,18 +13,23 @@ module.exports = {
         console.log(game_state);
 
         //Check for zero phase
-
-        let promise;
-        if(gameState.community_cards.length <= 3){
-          promise = Promise.resolve(phase_zero());
-        } else {
-          promise = Promise.resolve(phase_two());
+        try {
+            let promise;
+            if(gameState.community_cards.length <= 3){
+              promise = Promise.resolve(phase_zero());
+            } else {
+              promise = Promise.resolve(phase_two());
+            }
+            promise.then(resolve, reject);
+        } catch(e) {
+            console.error(e);
+            reject(e);
         }
-        promise.then(resolve, reject);
     }).then(value => {
         bet(Math.round(value));
     }).catch(err => {
-        console.log('ERROR', err);
+        console.log('ERROR!!!! Bluffing', err);
+        bet(Math.random() * myplayer.stack);
     });
   },
   showdown: function(game_state) {
@@ -78,7 +83,7 @@ function phase_two (){
         return card.suit === suit;
     }).length;
 
-    if(suited === 3) { // FLUSH!
+    if(suited >= 3) { // FLUSH! TODO: change if they react
         return allIn();
     } else if(suited == 2) {
         if(gameState.community_cards.length < 5) { // flush still possible
