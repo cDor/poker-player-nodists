@@ -118,7 +118,7 @@ function evaluate (cards){
     return 3;
   }else if(isSuited(cards)){
     return 2;
-  } else if(isHighCard(first) || isHighCard(second)) {
+  } else if(isHighCard(first) || isHighCard(second) || areContinous(first, second)) {
     return 1;
   }else {
     return 0;
@@ -147,6 +147,13 @@ function isSuited(cards){
   }
   return false;
 
+}
+
+function areContinous(first, second) {
+    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    const firstValue = ranks.indexOf(first.rank);
+    const secondValue = ranks.indexOf(second.rank);
+    return ((firstValue + 1) == secondValue) || (firstValue == (secondValue + 1));
 }
 
 function call (){
