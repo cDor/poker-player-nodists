@@ -1,7 +1,6 @@
 let gameState, respond;
 module.exports = {
   VERSION: "Kickstarter",
-
   bet_request: function(game_state, bet) {
     gameState =  game_state;
     respond = bet;
@@ -37,9 +36,9 @@ function phase_four (game_state, bet){
   call();
 
 }
+
 function phase_five (game_state, bet){
   call();
-
 }
 
 function call (){
